@@ -177,8 +177,16 @@
   .workoutsContainer {
     grid-template-columns: 1fr;
   }
-  
+}
+
+/* Keep form inputs on one row even on small screens */
+@media (max-width: 480px) {
   .formRow {
-    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .formGroup input {
+    padding: 0.6rem;
+    font-size: 0.9rem;
   }
 }

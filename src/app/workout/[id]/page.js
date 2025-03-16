@@ -75,8 +75,8 @@ export default function WorkoutDetail({ params }) {
         name: '',
         sets: [{
           setNumber: 1,
-          reps: '',
-          weight: ''
+          weight: '',
+          reps: ''
         }]
       }];
       
@@ -95,8 +95,8 @@ export default function WorkoutDetail({ params }) {
             name: '',
             sets: [{
               setNumber: 1,
-              reps: '',
-              weight: ''
+              weight: '',
+              reps: ''
             }]
           }
         ]
@@ -158,10 +158,17 @@ export default function WorkoutDetail({ params }) {
     const updatedExercises = [...workoutData.exercises];
     const exercise = updatedExercises[exerciseIndex];
     
+    // Get the weight from the previous set if it exists
+    let previousWeight = '';
+    if (exercise.sets && exercise.sets.length > 0) {
+      const lastSet = exercise.sets[exercise.sets.length - 1];
+      previousWeight = lastSet.weight || '';
+    }
+    
     const newSet = {
       setNumber: (exercise.sets?.length || 0) + 1,
-      reps: '',
-      weight: ''
+      weight: previousWeight, // Use the weight from the previous set
+      reps: ''
     };
     
     updatedExercises[exerciseIndex] = {

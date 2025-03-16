@@ -53,8 +53,8 @@ export default function TestPage() {
     }
 
     const set = {
-      reps: parseInt(reps),
-      weight: parseInt(weight)
+      weight: parseInt(weight),
+      reps: parseInt(reps)
     };
 
     addSet(selectedWorkout, 0, set);
@@ -155,21 +155,25 @@ export default function TestPage() {
                 <h3>Add Set to First Exercise</h3>
                 <div className={styles.formRow}>
                   <div className={styles.formGroup}>
+                    <label>Weight:</label>
+                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                      <input
+                        type="number"
+                        value={weight}
+                        onChange={(e) => setWeight(e.target.value)}
+                        min="0"
+                        style={{ paddingRight: '30px' }}
+                      />
+                      <span style={{ position: 'absolute', right: '10px', fontSize: '0.9rem', color: 'rgba(0, 0, 0, 0.6)' }}>kg</span>
+                    </div>
+                  </div>
+                  <div className={styles.formGroup}>
                     <label>Reps:</label>
                     <input
                       type="number"
                       value={reps}
                       onChange={(e) => setReps(e.target.value)}
                       min="1"
-                    />
-                  </div>
-                  <div className={styles.formGroup}>
-                    <label>Weight (lbs):</label>
-                    <input
-                      type="number"
-                      value={weight}
-                      onChange={(e) => setWeight(e.target.value)}
-                      min="0"
                     />
                   </div>
                 </div>

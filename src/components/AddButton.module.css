@@ -10,6 +10,12 @@
   transition: background-color 0.2s, transform 0.2s;
 }
 
+/* Smaller variant of the button */
+.small {
+  width: 40px;
+  height: 40px;
+}
+
 .button:hover:not(.disabled) {
   background-color: #dcdcc0;
   transform: scale(1.05);
@@ -31,10 +37,20 @@
   line-height: 1;
 }
 
+/* Smaller plus sign */
+.small .plus {
+  font-size: 1.5rem;
+}
+
 .label {
   margin-left: 0.5rem;
   font-size: 1rem;
   font-weight: 500;
+}
+
+/* Smaller label */
+.small .label {
+  font-size: 0.85rem;
 }
 
 /* When label is shown, adjust button shape */
@@ -42,6 +58,12 @@
   width: auto;
   border-radius: 28px;
   padding: 0 1.5rem;
+}
+
+/* When label is shown in small button, adjust padding */
+.small:has(.label) {
+  padding: 0 1rem;
+  border-radius: 20px;
 }
 
 .srOnly {

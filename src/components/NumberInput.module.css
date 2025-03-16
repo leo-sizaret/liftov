@@ -11,6 +11,13 @@
   color: var(--foreground);
 }
 
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
 .input {
   font-family: 'Roboto', sans-serif;
   font-size: 1rem;
@@ -22,6 +29,14 @@
   width: 100%;
   transition: border-color 0.2s, box-shadow 0.2s;
   -moz-appearance: textfield; /* Remove spinner in Firefox */
+}
+
+.suffix {
+  position: absolute;
+  right: 10px;
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.6);
+  pointer-events: none;
 }
 
 .input:focus {
@@ -39,4 +54,16 @@
 .input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+/* Make inputs smaller on mobile */
+@media (max-width: 480px) {
+  .input {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
+  
+  .suffix {
+    font-size: 0.8rem;
+  }
 }

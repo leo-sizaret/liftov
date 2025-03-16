@@ -94,6 +94,7 @@ function ExerciseBlock({
             onClick={handleAddSet}
             label="Add Set"
             showLabel={true}
+            small={true}
           />
         </div>
       </div>

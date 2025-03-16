@@ -53,6 +53,17 @@ function SetRow({ set, exerciseIndex, setIndex, onDelete, onUpdate }) {
       
       <div className={styles.inputsContainer}>
         <NumberInput
+          id={`set-${exerciseIndex}-${setIndex}-weight`}
+          value={set.weight || ''}
+          onChange={handleWeightChange}
+          placeholder="Weight"
+          suffix="kg"
+          className={styles.weightInput}
+          min={0}
+          aria-label="Weight"
+        />
+        
+        <NumberInput
           id={`set-${exerciseIndex}-${setIndex}-reps`}
           value={set.reps || ''}
           onChange={handleRepsChange}
@@ -60,16 +71,6 @@ function SetRow({ set, exerciseIndex, setIndex, onDelete, onUpdate }) {
           className={styles.repsInput}
           min={1}
           aria-label="Repetitions"
-        />
-        
-        <NumberInput
-          id={`set-${exerciseIndex}-${setIndex}-weight`}
-          value={set.weight || ''}
-          onChange={handleWeightChange}
-          placeholder="Weight (kg)"
-          className={styles.weightInput}
-          min={0}
-          aria-label="Weight"
         />
       </div>
     </div>

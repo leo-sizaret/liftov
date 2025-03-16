@@ -56,9 +56,9 @@
   flex: 1;
 }
 
+/* Keep inputs on one row even on mobile */
 @media (max-width: 480px) {
   .inputsContainer {
-    flex-direction: column;
     gap: 0.5rem;
   }
 }

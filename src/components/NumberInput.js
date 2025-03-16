@@ -11,6 +11,7 @@ import styles from './NumberInput.module.css';
  * @param {Function} props.onChange - Change handler
  * @param {string} props.placeholder - Placeholder text
  * @param {string} props.label - Label text (optional)
+ * @param {string} props.suffix - Text to display after the input (optional)
  * @param {number} props.min - Minimum value (default: 0)
  * @param {string} props.className - Additional CSS class names
  * @returns {JSX.Element} NumberInput component
@@ -21,6 +22,7 @@ function NumberInput({
   onChange,
   placeholder,
   label,
+  suffix,
   min = 0,
   className = '',
   ...rest
@@ -42,16 +44,19 @@ function NumberInput({
           {label}
         </label>
       )}
-      <input
-        id={id}
-        type="number"
-        value={value}
-        onChange={handleChange}
-        placeholder={placeholder}
-        min={min}
-        className={styles.input}
-        {...rest}
-      />
+      <div className={styles.inputWrapper}>
+        <input
+          id={id}
+          type="number"
+          value={value}
+          onChange={handleChange}
+          placeholder={placeholder}
+          min={min}
+          className={styles.input}
+          {...rest}
+        />
+        {suffix && <span className={styles.suffix}>{suffix}</span>}
+      </div>
     </div>
   );
 }

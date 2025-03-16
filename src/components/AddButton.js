@@ -13,15 +13,17 @@ import styles from './AddButton.module.css';
  * @param {boolean} props.fixed - Whether the button should be fixed at the bottom (default: false)
  * @param {boolean} props.showLabel - Whether to show the label text next to the + symbol (default: false)
  * @param {boolean} props.disabled - Whether the button is disabled (default: false)
+ * @param {boolean} props.small - Whether to use the smaller button size (default: false)
  * @returns {JSX.Element} Button component
  */
-function AddButton({ 
-  href, 
-  onClick, 
-  label = "Add", 
+function AddButton({
+  href,
+  onClick,
+  label = "Add",
   fixed = false,
   showLabel = false,
-  disabled = false
+  disabled = false,
+  small = false
 }) {
   const handleKeyDown = (e) => {
     if (disabled) return;
@@ -35,7 +37,7 @@ function AddButton({
   };
 
   const buttonContent = (
-    <div className={`${styles.button} ${fixed ? styles.fixed : ''} ${disabled ? styles.disabled : ''}`}>
+    <div className={`${styles.button} ${fixed ? styles.fixed : ''} ${disabled ? styles.disabled : ''} ${small ? styles.small : ''}`}>
       <span className={styles.plus}>+</span>
       {showLabel && <span className={styles.label}>{label}</span>}
       {!showLabel && <span className={styles.srOnly}>{label}</span>}
