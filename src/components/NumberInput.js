@@ -48,6 +48,7 @@ function NumberInput({
         <input
           id={id}
           type="number"
+          inputMode="numeric"
           value={value}
           onChange={handleChange}
           placeholder={placeholder}
