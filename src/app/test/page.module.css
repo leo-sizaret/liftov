@@ -1,0 +1,184 @@
+.container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.error {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.actions {
+  margin-bottom: 2rem;
+}
+
+.button {
+  background-color: var(--button-bg);
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+}
+
+.button:hover {
+  background-color: #dcdcc0;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.workoutsContainer {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.workoutsList {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.workoutsList h2 {
+  margin-bottom: 1rem;
+}
+
+.workoutsList ul {
+  list-style: none;
+  padding: 0;
+}
+
+.workoutItem {
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.workoutItem:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.workoutItem.selected {
+  background-color: var(--button-bg);
+}
+
+.deleteButton {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: #ffebee;
+  color: #c62828;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.workoutDetail {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.workoutDetail h2 {
+  margin-bottom: 1rem;
+}
+
+.workoutInfo {
+  background-color: var(--input-bg);
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  overflow: auto;
+  max-height: 300px;
+}
+
+.workoutInfo pre {
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.addExerciseForm,
+.addSetForm {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.addExerciseForm h3,
+.addSetForm h3 {
+  margin-bottom: 1rem;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.formGroup input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  background-color: var(--input-bg);
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.localStorage {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.localStorage h2 {
+  margin-bottom: 1rem;
+}
+
+.localStorage pre {
+  background-color: var(--input-bg);
+  padding: 1rem;
+  border-radius: 4px;
+  overflow: auto;
+  max-height: 300px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+@media (max-width: 768px) {
+  .workoutsContainer {
+    grid-template-columns: 1fr;
+  }
+  
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+}

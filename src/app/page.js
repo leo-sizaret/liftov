@@ -1,95 +1,207 @@
-import Image from "next/image";
+'use client';
+
+import { memo, useEffect, useState, Suspense, lazy } from 'react';
+import { useRouter } from 'next/navigation';
+import { useWorkoutContext } from "../context/WorkoutContext";
+import { createEmptyWorkout } from "../utils/workoutUtils";
+import Header from "../components/Header";
+import AddButton from "../components/AddButton";
+import EmptyState from "../components/EmptyState";
+import ErrorBoundary from "../components/ErrorBoundary";
 import styles from "./page.module.css";
 
-export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+// Lazy load non-critical components
+const WorkoutSummaryCard = lazy(() => import("../components/WorkoutSummaryCard"));
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+// Fallback loading component for lazy-loaded components
+const LoadingCard = () => (
+  <div className={styles.loadingCard}>
+    <div className={styles.loadingCardContent}>
+      <div className={styles.loadingCardDate}></div>
+      <div className={styles.loadingCardExercise}></div>
     </div>
+  </div>
+);
+
+// Memoized WorkoutSummaryCard to prevent unnecessary re-renders
+const MemoizedWorkoutSummaryCard = memo(({ workout, onClick, onDelete }) => (
+  <Suspense fallback={<LoadingCard />}>
+    <WorkoutSummaryCard 
+      workout={workout}
+      onClick={onClick}
+      onDelete={onDelete}
+    />
+  </Suspense>
+));
+
+// Add display name
+MemoizedWorkoutSummaryCard.displayName = 'MemoizedWorkoutSummaryCard';
+
+export default function Home() {
+  const router = useRouter();
+  const { 
+    workouts, 
+    getWorkouts,
+    addWorkout,
+    deleteWorkout,
+    isLoading: contextLoading, 
+    error: contextError 
+  } = useWorkoutContext();
+  
+  const [isCreatingWorkout, setIsCreatingWorkout] = useState(false);
+  const [sortedWorkouts, setSortedWorkouts] = useState([]);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  // Sort workouts by date (newest first)
+  useEffect(() => {
+    if (!workouts) return;
+    
+    const sorted = [...workouts].sort((a, b) => {
+      // Sort by date, newest first
+      return new Date(b.date) - new Date(a.date);
+    });
+    
+    setSortedWorkouts(sorted);
+  }, [workouts]);
+
+  // Refresh data when the component mounts or when refreshTrigger changes
+  useEffect(() => {
+    // The workouts are already loaded by the WorkoutContext
+    // This is just a placeholder for any additional loading logic
+  }, [refreshTrigger]);
+
+  // Set up focus event listener to refresh data when the page gains focus
+  useEffect(() => {
+    const handleFocus = () => {
+      refreshWorkouts();
+    };
+
+    window.addEventListener('focus', handleFocus);
+    
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, []);
+
+  // Refresh the list of workouts
+  const refreshWorkouts = () => {
+    setRefreshTrigger(prev => prev + 1);
+  };
+
+  // Create a new workout and navigate to it
+  const handleCreateNewWorkout = () => {
+    try {
+      // Prevent multiple rapid clicks
+      if (isCreatingWorkout) return;
+      
+      setIsCreatingWorkout(true);
+      
+      // Create a new empty workout
+      const newWorkout = createEmptyWorkout();
+      
+      // Add it to the context
+      const savedWorkout = addWorkout(newWorkout);
+      
+      // Navigate to the workout screen
+      router.push(`/workout/${savedWorkout.id}`);
+      
+      // Reset creating state after navigation
+      setTimeout(() => {
+        setIsCreatingWorkout(false);
+      }, 500);
+    } catch (err) {
+      console.error('Error creating workout:', err);
+      setIsCreatingWorkout(false);
+    }
+  };
+
+  // Delete a workout
+  const handleDeleteWorkout = (id) => {
+    try {
+      deleteWorkout(id);
+      refreshWorkouts();
+    } catch (err) {
+      console.error('Error deleting workout:', err);
+    }
+  };
+
+  // Navigate to a workout
+  const handleNavigateToWorkout = (id) => {
+    router.push(`/workout/${id}`);
+  };
+
+  // If still loading, show loading state
+  if (contextLoading) {
+    return (
+      <div className={styles.container}>
+        <Header />
+        <main className={styles.main}>
+          <div className={styles.loading} aria-live="polite">
+            <div className={styles.loadingSpinner}></div>
+            <p>Loading...</p>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  // If there's an error, show error state
+  if (contextError) {
+    return (
+      <div className={styles.container}>
+        <Header />
+        <main className={styles.main}>
+          <div className={styles.error} aria-live="assertive">
+            <p>{contextError}</p>
+            <button 
+              className={styles.retryButton}
+              onClick={refreshWorkouts}
+            >
+              Retry
+            </button>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  return (
+    <ErrorBoundary>
+      <div className={`${styles.container} ${styles.fadeIn}`}>
+        <Header />
+        
+        <main className={styles.main}>
+          <section className={styles.workoutList} aria-label="Workouts list">
+            {sortedWorkouts.length === 0 ? (
+              <EmptyState />
+            ) : (
+              <ul className={styles.list}>
+                {sortedWorkouts.map((workout, index) => (
+                  <li 
+                    key={workout.id} 
+                    className={styles.listItem}
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    <MemoizedWorkoutSummaryCard 
+                      workout={workout}
+                      onClick={() => handleNavigateToWorkout(workout.id)}
+                      onDelete={handleDeleteWorkout}
+                    />
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+        </main>
+        
+        {/* "+" button fixed at the bottom center that creates a new workout */}
+        <AddButton 
+          onClick={handleCreateNewWorkout} 
+          label="New Workout" 
+          fixed={true}
+          disabled={isCreatingWorkout}
+        />
+      </div>
+    </ErrorBoundary>
   );
 }

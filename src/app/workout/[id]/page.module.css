@@ -3,7 +3,20 @@
   flex-direction: column;
   min-height: 100vh;
   background-color: var(--background);
-  animation: fadeIn 0.3s ease-out;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem 1rem;
+  background-color: var(--background);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.title {
+  margin-left: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .main {
@@ -13,47 +26,85 @@
   flex-direction: column;
 }
 
-.workoutList {
-  flex: 1;
-  margin-bottom: 5rem; /* Space for the fixed add button */
+.exerciseBlockWrapper {
+  animation: slideIn 0.3s ease-out;
+  animation-fill-mode: both;
 }
 
-.list {
+.exerciseList {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.listItem {
-  margin-bottom: 1rem;
-  animation: slideIn 0.3s ease-out;
-  animation-fill-mode: both;
-}
-
-/* Add staggered animation delay for list items */
-.listItem:nth-child(1) { animation-delay: 0.05s; }
-.listItem:nth-child(2) { animation-delay: 0.1s; }
-.listItem:nth-child(3) { animation-delay: 0.15s; }
-.listItem:nth-child(4) { animation-delay: 0.2s; }
-.listItem:nth-child(5) { animation-delay: 0.25s; }
-.listItem:nth-child(6) { animation-delay: 0.3s; }
-.listItem:nth-child(7) { animation-delay: 0.35s; }
-.listItem:nth-child(8) { animation-delay: 0.4s; }
-.listItem:nth-child(9) { animation-delay: 0.45s; }
-.listItem:nth-child(10) { animation-delay: 0.5s; }
-
-/* Loading card skeleton */
-.loadingCard {
+.exerciseItem {
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   padding: 1rem;
-  height: 80px;
+  margin-bottom: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.exerciseItem:last-child {
+  margin-bottom: 0;
+}
+
+.exerciseName {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.setsInfo {
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.addExerciseContainer {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+  padding-left: 0.5rem;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.5);
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.emptyState p {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.emptyStateSubtext {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* Loading exercise block skeleton */
+.loadingExerciseBlock {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  margin-bottom: 1rem;
   overflow: hidden;
   position: relative;
 }
 
-.loadingCard::after {
+.loadingExerciseBlock::after {
   content: "";
   position: absolute;
   top: 0;
@@ -71,22 +122,27 @@
   animation: shimmer 2s infinite;
 }
 
-.loadingCardContent {
+.loadingExerciseHeader {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
-.loadingCardDate {
-  width: 40%;
+.loadingExerciseName {
+  width: 60%;
   height: 1.2rem;
   background-color: #f0f0e0;
   border-radius: 4px;
 }
 
-.loadingCardExercise {
-  width: 70%;
-  height: 1rem;
+.loadingExerciseSets {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.loadingExerciseSet {
+  height: 2.5rem;
   background-color: #f0f0e0;
   border-radius: 4px;
 }
@@ -99,8 +155,8 @@
   align-items: center;
   padding: 2rem;
   text-align: center;
-  min-height: 200px;
   gap: 1rem;
+  min-height: 100vh;
 }
 
 .loadingSpinner {
@@ -120,12 +176,11 @@
   align-items: center;
   padding: 2rem;
   text-align: center;
-  min-height: 200px;
-  color: #c62828;
   gap: 1rem;
+  color: #c62828;
 }
 
-.retryButton {
+.retryButton, .returnButton {
   background-color: var(--button-bg);
   border: none;
   padding: 0.75rem 1.5rem;
@@ -133,11 +188,23 @@
   font-weight: 500;
   cursor: pointer;
   font-family: 'Roboto', sans-serif;
+  margin-top: 1rem;
   transition: background-color 0.2s;
 }
 
-.retryButton:hover {
+.retryButton:hover, .returnButton:hover {
   background-color: #dcdcc0;
+}
+
+/* Not found state */
+.notFound {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+  gap: 1rem;
 }
 
 /* Animations */
@@ -177,9 +244,16 @@
   animation: fadeIn 0.3s ease-out;
 }
 
-/* Responsive styles */
 @media (max-width: 600px) {
+  .header {
+    padding: 1rem;
+  }
+  
   .main {
+    padding: 0.75rem;
+  }
+  
+  .exerciseItem {
     padding: 0.75rem;
   }
 }

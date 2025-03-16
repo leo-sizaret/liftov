@@ -1,0 +1,101 @@
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--button-bg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.button:hover:not(.disabled) {
+  background-color: #dcdcc0;
+  transform: scale(1.05);
+}
+
+.button:active:not(.disabled) {
+  transform: scale(0.95);
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.plus {
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--foreground);
+  line-height: 1;
+}
+
+.label {
+  margin-left: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* When label is shown, adjust button shape */
+.button:has(.label) {
+  width: auto;
+  border-radius: 28px;
+  padding: 0 1.5rem;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.fixed {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.fixed:hover:not(.disabled) {
+  transform: translateX(-50%) scale(1.05);
+}
+
+.fixed:active:not(.disabled) {
+  transform: translateX(-50%) scale(0.95);
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.buttonElement {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.buttonElement:disabled {
+  cursor: not-allowed;
+}
+
+.buttonWrapper {
+  display: inline-block;
+}
+
+/* Add CSS transitions for smooth animations */
+.button {
+  transition: 
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    opacity 0.2s ease;
+}

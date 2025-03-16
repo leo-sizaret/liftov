@@ -1,0 +1,63 @@
+.exerciseBlock {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.deleteButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  font-size: 0.9rem;
+  color: var(--foreground);
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity 0.2s, background-color 0.2s;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.deleteButton:hover {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.nameInput {
+  flex: 1;
+}
+
+.setsContainer {
+  padding: 1rem;
+}
+
+.setsList {
+  margin-bottom: 1rem;
+}
+
+.noSets {
+  color: rgba(0, 0, 0, 0.5);
+  font-style: italic;
+  text-align: center;
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+}
+
+.addSetContainer {
+  display: flex;
+  align-items: center;
+}
