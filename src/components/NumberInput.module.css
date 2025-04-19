@@ -59,7 +59,7 @@
 /* Make inputs smaller on mobile */
 @media (max-width: 480px) {
   .input {
-    font-size: 0.9rem;
+    font-size: 1rem;
     padding: 0.6rem;
   }
   
