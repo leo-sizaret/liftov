@@ -46,8 +46,33 @@
   background-color: rgba(0, 0, 0, 0.05);
 }
 
+.copyButton {
+  position: absolute;
+  top: 0.75rem;
+  right: 2.5rem; /* Position to the left of delete button */
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: var(--foreground);
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity 0.2s, background-color 0.2s;
+  z-index: 1;
+}
+
+.copyButton:hover {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
 .content {
-  padding-right: 1.5rem; /* Space for delete button */
+  padding-right: 3.5rem; /* Space for both delete and copy buttons */
 }
 
 .date {

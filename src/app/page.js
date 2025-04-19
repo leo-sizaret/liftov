@@ -44,8 +44,9 @@ export default function Home() {
     getWorkouts,
     addWorkout,
     deleteWorkout,
-    isLoading: contextLoading, 
-    error: contextError 
+    isLoading: contextLoading,
+    error: contextError,
+    copyWorkout // Destructure copyWorkout from context
   } = useWorkoutContext();
   
   const [isCreatingWorkout, setIsCreatingWorkout] = useState(false);
@@ -186,6 +187,7 @@ export default function Home() {
                       workout={workout}
                       onClick={() => handleNavigateToWorkout(workout.id)}
                       onDelete={handleDeleteWorkout}
+                      onCopy={() => copyWorkout(workout.id)} // Pass workout ID to copyWorkout
                     />
                   </li>
                 ))}

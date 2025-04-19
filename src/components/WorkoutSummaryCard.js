@@ -12,7 +12,7 @@ import styles from './WorkoutSummaryCard.module.css';
  * @param {Function} props.onClick - Function to call when card is clicked
  * @returns {JSX.Element} WorkoutSummaryCard component
  */
-function WorkoutSummaryCard({ workout, onDelete, onClick }) {
+function WorkoutSummaryCard({ workout, onDelete, onClick, onCopy }) {
   if (!workout) return null;
 
   // Get the first exercise name if available
@@ -28,6 +28,14 @@ function WorkoutSummaryCard({ workout, onDelete, onClick }) {
     }
   };
 
+  // Handle copy button click
+  const handleCopyClick = (e) => {
+    e.stopPropagation(); // Prevent card click
+    if (onCopy) {
+      onCopy(workout);
+    }
+  };
+
   // Handle card click
   const handleCardClick = () => {
     if (onClick) {
@@ -36,8 +44,8 @@ function WorkoutSummaryCard({ workout, onDelete, onClick }) {
   };
 
   return (
-    <div 
-      className={styles.card} 
+    <div
+      className={styles.card}
       onClick={handleCardClick}
       role="button"
       tabIndex={0}
@@ -48,14 +56,22 @@ function WorkoutSummaryCard({ workout, onDelete, onClick }) {
         }
       }}
     >
-      <button 
-        className={styles.deleteButton} 
+      <button
+        className={styles.deleteButton}
         onClick={handleDeleteClick}
         aria-label="Delete workout"
       >
         ✕
       </button>
-      
+      <button
+        className={styles.copyButton}
+        onClick={handleCopyClick}
+        aria-label="Copy workout"
+      >
+        {/* You'll need an SVG or icon for copy here */}
+        📋 {/* Placeholder for copy icon */}
+      </button>
+
       <div className={styles.content}>
         <h2 className={styles.date}>
           {formatDateForDisplay(workout.date)}

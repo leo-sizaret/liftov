@@ -297,6 +297,43 @@ export function useWorkouts() {
     return updateWorkout(workoutId, { exercises });
   };
 
+  /**
+   * Copy an existing workout
+   * @param {string} workoutId - The ID of the workout to copy
+   * @returns {Object|null} The newly created workout or null if the original workout was not found
+   */
+  const copyWorkout = (workoutId) => {
+    const workoutToCopy = getWorkoutById(workoutId);
+
+    if (!workoutToCopy) {
+      console.error(`Workout with ID ${workoutId} not found.`);
+      return null;
+    }
+
+    // Create a deep copy of the workout
+    const newWorkout = JSON.parse(JSON.stringify(workoutToCopy));
+
+    // Generate a new ID and set the current date
+    newWorkout.id = generateId();
+    newWorkout.date = formatDate(new Date());
+
+    // Clear the reps for each set
+    if (newWorkout.exercises) {
+      newWorkout.exercises.forEach(exercise => {
+        if (exercise.sets) {
+          exercise.sets.forEach(set => {
+            set.reps = ''; // Clear reps
+          });
+        }
+      });
+    }
+
+    // Add the new workout to the state
+    setWorkouts(prevWorkouts => [...prevWorkouts, newWorkout]);
+
+    return newWorkout;
+  };
+
   return {
     workouts,
     isLoading,
@@ -311,6 +348,7 @@ export function useWorkouts() {
     deleteExercise,
     addSet,
     updateSet,
-    deleteSet
+    deleteSet,
+    copyWorkout // Add the new function here
   };
 }
