@@ -13,10 +13,10 @@ import styles from './WorkoutSummaryCard.module.css';
  * @returns {JSX.Element} WorkoutSummaryCard component
  */
 function WorkoutSummaryCard({ workout, onDelete, onClick, onCopy }) {
-  if (!workout) return null;
-  
   // Add state for deletion confirmation
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  
+  if (!workout) return null;
 
   // Get the first exercise name if available
   const firstExerciseName = workout.exercises && workout.exercises.length > 0

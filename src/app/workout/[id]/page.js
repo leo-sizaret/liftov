@@ -355,7 +355,7 @@ export default function WorkoutDetail({ params }) {
           <h1 className={styles.title}>Workout Not Found</h1>
         </div>
         <div className={styles.notFound}>
-          <p>The workout you're looking for doesn't exist or has been deleted.</p>
+          <p>The workout you&apos;re looking for doesn&apos;t exist or has been deleted.</p>
           <button
             className={styles.returnButton}
             onClick={handleNavigateBack}
