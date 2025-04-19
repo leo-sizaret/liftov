@@ -24,12 +24,13 @@ const LoadingCard = () => (
 );
 
 // Memoized WorkoutSummaryCard to prevent unnecessary re-renders
-const MemoizedWorkoutSummaryCard = memo(({ workout, onClick, onDelete }) => (
+const MemoizedWorkoutSummaryCard = memo(({ workout, onClick, onDelete, onCopy }) => (
   <Suspense fallback={<LoadingCard />}>
-    <WorkoutSummaryCard 
+    <WorkoutSummaryCard
       workout={workout}
       onClick={onClick}
       onDelete={onDelete}
+      onCopy={onCopy}
     />
   </Suspense>
 ));

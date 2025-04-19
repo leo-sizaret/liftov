@@ -1,6 +1,6 @@
 'use client';
 
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { formatDateForDisplay } from '../utils/workoutUtils';
 import styles from './WorkoutSummaryCard.module.css';
 
@@ -14,6 +14,9 @@ import styles from './WorkoutSummaryCard.module.css';
  */
 function WorkoutSummaryCard({ workout, onDelete, onClick, onCopy }) {
   if (!workout) return null;
+  
+  // Add state for deletion confirmation
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   // Get the first exercise name if available
   const firstExerciseName = workout.exercises && workout.exercises.length > 0
@@ -23,16 +26,29 @@ function WorkoutSummaryCard({ workout, onDelete, onClick, onCopy }) {
   // Handle delete button click
   const handleDeleteClick = (e) => {
     e.stopPropagation(); // Prevent card click
+    setShowDeleteConfirm(true); // Show confirmation dialog
+  };
+  
+  // Handle delete confirmation
+  const handleConfirmDelete = (e) => {
+    e.stopPropagation(); // Prevent card click
     if (onDelete) {
       onDelete(workout.id);
     }
+    setShowDeleteConfirm(false);
+  };
+  
+  // Handle cancel delete
+  const handleCancelDelete = (e) => {
+    e.stopPropagation(); // Prevent card click
+    setShowDeleteConfirm(false);
   };
 
   // Handle copy button click
   const handleCopyClick = (e) => {
     e.stopPropagation(); // Prevent card click
     if (onCopy) {
-      onCopy(workout);
+      onCopy(workout.id); // Pass the workout ID to the onCopy function
     }
   };
 
@@ -56,21 +72,32 @@ function WorkoutSummaryCard({ workout, onDelete, onClick, onCopy }) {
         }
       }}
     >
-      <button
-        className={styles.deleteButton}
-        onClick={handleDeleteClick}
-        aria-label="Delete workout"
-      >
-        ✕
-      </button>
-      <button
-        className={styles.copyButton}
-        onClick={handleCopyClick}
-        aria-label="Copy workout"
-      >
-        {/* You'll need an SVG or icon for copy here */}
-        📋 {/* Placeholder for copy icon */}
-      </button>
+      {showDeleteConfirm ? (
+        <div className={styles.deleteConfirm} onClick={(e) => e.stopPropagation()}>
+          <p>Delete workout?</p>
+          <div className={styles.confirmButtons}>
+            <button className={styles.cancelButton} onClick={handleCancelDelete}>No</button>
+            <button className={styles.confirmButton} onClick={handleConfirmDelete}>Yes</button>
+          </div>
+        </div>
+      ) : (
+        <>
+          <button
+            className={styles.deleteButton}
+            onClick={handleDeleteClick}
+            aria-label="Delete workout"
+          >
+            ✕
+          </button>
+          <button
+            className={styles.copyButton}
+            onClick={handleCopyClick}
+            aria-label="Copy workout"
+          >
+            📋
+          </button>
+        </>
+      )}
 
       <div className={styles.content}>
         <h2 className={styles.date}>
