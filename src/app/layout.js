@@ -40,7 +40,7 @@ export default function RootLayout({ children }) {
         <meta name="theme-color" content="#F5F5E8" />
         
         {/* Viewport settings for responsive design */}
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
         
         {/* PWA manifest and icons */}
         <link rel="manifest" href="/manifest.json" />
